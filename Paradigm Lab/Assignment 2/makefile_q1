@@ -1,0 +1,18 @@
+CXX = g++
+CXXFLAGS = -Wall
+
+TARGET = a2_q1
+
+OBJS = a2_q1.o student_record.o
+
+$(TARGET): $(OBJS)
+	$(CXX) $(CXXFLAGS) -o $(TARGET) $(OBJS)
+
+a2_q1.o: a2_q1.cpp student_record.h
+	$(CXX) $(CXXFLAGS) -c a2_q1.cpp
+
+student_record.o: student_record.cpp student_record.h
+	$(CXX) $(CXXFLAGS) -c student_record.cpp
+
+clean:
+	rm -f $(OBJS) $(TARGET)
