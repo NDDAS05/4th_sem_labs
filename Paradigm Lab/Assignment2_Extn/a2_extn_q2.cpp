@@ -108,130 +108,222 @@ int main() {
 
     int ch;
 
-    std::cout << "Select Stack Type:\n";
-    std::cout << "1. Integer\n";
-    std::cout << "2. Float\n";
-    std::cout << "3. Student Struct\n";
-    std::cout << "Enter choice: ";
-    std::cin >> ch;
+    while (true) {
+
+        std::cout << "\nSelect Stack Type:\n";
+        std::cout << "1. Integer\n";
+        std::cout << "2. Float\n";
+        std::cout << "3. Student Struct\n";
+        std::cout << "4. char*\n";
+        std::cout << "5. std::string\n";
+        std::cout << "0. Exit\n";
+        std::cout << "Enter choice: ";
+        std::cin >> ch;
+
+        if (ch == 0)
+            return 0;
+
+        int size, limit;
+
+        std::cout << "Enter initial size (-1 default): ";
+        std::cin >> size;
+
+        std::cout << "Enter maximum capacity (-1 default): ";
+        std::cin >> limit;
 
 
-    if (ch == 1) {
+        if (ch == 1) {
 
-        stackLib::stk<int> mystack;
-        mystack.stack_arr = nullptr;
+            stackLib::stk<int> s;
+            stackLib::initialize(s,
+                                 (size <= 0 ? 2 : size),
+                                 (limit <= 0 ? 10 : limit));
 
-        int choice, value, size, limit;
+            int choice, value;
 
-        while (true) {
-
-            if (mystack.stack_arr == nullptr) {
-
-                std::cout << "Enter 1 to create a stack. 0 to exit.\n";
+            while (true) {
+                std::cout << "\n1.Push\n2.Pop\n3.Display\n4.Clear & Back\n";
                 std::cin >> choice;
 
-                if (choice == 0)
-                    std::exit(1);
-
-                std::cout << "Enter size (-1 default): ";
-                std::cin >> size;
-
-                if (size <= 0)
-                    stackLib::initialize(mystack);
-                else {
-                    std::cout << "Enter maximum capacity (-1 default): ";
-                    std::cin >> limit;
-                    if (limit <= 0)
-                        stackLib::initialize(mystack, size);
-                    else
-                        stackLib::initialize(mystack, size, limit);
+                if (choice == 4) {
+                    stackLib::release(s);
+                    break;
                 }
 
-                while (true) {
-
-                    std::cout << "\n1.Push\n2.Push multiple elements\n3.Pop\n4.Print\n5.Current size\n6.Max capacity\n7.Clear & exit\n";
-                    std::cin >> choice;
-
-                    if (choice == 7) {
-                        stackLib::release(mystack);
-                        break;
-                    }
-
-                    switch (choice) {
-
-                    case 1:
-                        std::cout << "Enter element: ";
-                        std::cin >> value;
-                        stackLib::push(mystack, value);
-                        break;
-
-                    case 2: {
-                        std::cout << "Enter count: ";
-                        std::cin >> value;
-                        int* arr = new int[value];
-                        for (int i = 0; i < value; i++)
-                            std::cin >> arr[i];
-                        stackLib::push(mystack, arr, value);
-                        delete[] arr;
-                        break;
-                    }
-
-                    case 3:
-                        std::cout << "Popped: "
-                                  << stackLib::pop(mystack) << std::endl;
-                        break;
-
-                    case 4:
-                        stackLib::display(mystack);
-                        break;
-
-                    case 5:
-                        std::cout << mystack.top + 1 << std::endl;
-                        break;
-
-                    case 6:
-                        std::cout << mystack.MaxLimit << std::endl;
-                        break;
-
-                    default:
-                        std::cout << "Invalid choice.\n";
-                    }
+                switch (choice) {
+                case 1:
+                    std::cout << "Enter integer: ";
+                    std::cin >> value;
+                    stackLib::push(s, value);
+                    break;
+                case 2:
+                    std::cout << "Popped: "
+                              << stackLib::pop(s) << std::endl;
+                    break;
+                case 3:
+                    stackLib::display(s);
+                    break;
                 }
             }
         }
-    }
 
 
-    else if (ch == 2) {
+        else if (ch == 2) {
 
-        stackLib::stk<float> mystack;
-        stackLib::initialize(mystack);
+            stackLib::stk<float> s;
+            stackLib::initialize(s,
+                                 (size <= 0 ? 2 : size),
+                                 (limit <= 0 ? 10 : limit));
 
-        stackLib::push(mystack, 1.1f);
-        stackLib::push(mystack, 2.2f);
-        stackLib::display(mystack);
+            int choice;
+            float value;
 
-        stackLib::release(mystack);
-    }
+            while (true) {
+                std::cout << "\n1.Push\n2.Pop\n3.Display\n4.Clear & Back\n";
+                std::cin >> choice;
 
-    else if (ch == 3) {
+                if (choice == 4) {
+                    stackLib::release(s);
+                    break;
+                }
 
-        stackLib::stk<Student> mystack;
-        stackLib::initialize(mystack);
+                switch (choice) {
+                case 1:
+                    std::cout << "Enter float: ";
+                    std::cin >> value;
+                    stackLib::push(s, value);
+                    break;
+                case 2:
+                    std::cout << "Popped: "
+                              << stackLib::pop(s) << std::endl;
+                    break;
+                case 3:
+                    stackLib::display(s);
+                    break;
+                }
+            }
+        }
 
-        Student s1 = {1, 85.5};
-        Student s2 = {2, 91.2};
 
-        stackLib::push(mystack, s1);
-        stackLib::push(mystack, s2);
+        else if (ch == 3) {
 
-        stackLib::display(mystack);
+            stackLib::stk<Student> s;
+            stackLib::initialize(s,
+                                 (size <= 0 ? 2 : size),
+                                 (limit <= 0 ? 10 : limit));
 
-        stackLib::release(mystack);
-    }
+            int choice;
+            Student temp;
 
-    else {
-        std::cout << "Invalid type selection.\n";
+            while (true) {
+                std::cout << "\n1.Push\n2.Pop\n3.Display\n4.Clear & Back\n";
+                std::cin >> choice;
+
+                if (choice == 4) {
+                    stackLib::release(s);
+                    break;
+                }
+
+                switch (choice) {
+                case 1:
+                    std::cout << "Enter roll: ";
+                    std::cin >> temp.roll;
+                    std::cout << "Enter marks: ";
+                    std::cin >> temp.marks;
+                    stackLib::push(s, temp);
+                    break;
+                case 2:
+                    temp = stackLib::pop(s);
+                    std::cout << "Popped: " << temp << std::endl;
+                    break;
+                case 3:
+                    stackLib::display(s);
+                    break;
+                }
+            }
+        }
+
+
+        else if (ch == 4) {
+
+            stackLib::stk<char*> s;
+            stackLib::initialize(s,
+                                 (size <= 0 ? 2 : size),
+                                 (limit <= 0 ? 10 : limit));
+
+            int choice;
+            char buffer[100];
+
+            while (true) {
+                std::cout << "\n1.Push\n2.Pop\n3.Display\n4.Clear & Back\n";
+                std::cin >> choice;
+
+                if (choice == 4) {
+                    stackLib::release(s);
+                    break;
+                }
+
+                switch (choice) {
+                case 1:
+                    std::cout << "Enter string: ";
+                    std::cin >> buffer;
+                    s.stack_arr[++s.top] = buffer;
+                    break;
+
+                case 2:
+                    std::cout << "Popped: "
+                              << stackLib::pop(s) << std::endl;
+                    break;
+
+                case 3:
+                    stackLib::display(s);
+                    break;
+                }
+            }
+        }
+
+
+        else if (ch == 5) {
+
+            stackLib::stk<std::string> s;
+            stackLib::initialize(s,
+                                 (size <= 0 ? 2 : size),
+                                 (limit <= 0 ? 10 : limit));
+
+            int choice;
+            std::string value;
+
+            while (true) {
+                std::cout << "\n1.Push\n2.Pop\n3.Display\n4.Clear & Back\n";
+                std::cin >> choice;
+
+                if (choice == 4) {
+                    stackLib::release(s);
+                    break;
+                }
+
+                switch (choice) {
+                case 1:
+                    std::cin.ignore();
+                    std::cout << "Enter string: ";
+                    std::getline(std::cin,value);
+                    stackLib::push(s, value);
+                    std::cin.ignore();
+                    break;
+                case 2:
+                    std::cout << "Popped: "
+                              << stackLib::pop(s) << std::endl;
+                    break;
+                case 3:
+                    stackLib::display(s);
+                    break;
+                }
+            }
+        }
+
+        else {
+            std::cout << "Invalid choice.\n";
+        }
     }
 
     return 0;
