@@ -83,7 +83,7 @@ T pop(stk<T>& s) {
 }
 
 template <typename T>
-void display(stk<T>& s) {
+void display(const stk<T>& s) {
     std::cout << "[ ";
     for (int i = 0; i <= s.top; i++)
         std::cout << s.stack_arr[i] << " ";
