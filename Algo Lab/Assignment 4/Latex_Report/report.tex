@@ -681,4 +681,258 @@ plot "results.txt" using 1:2 with linespoints title "QuickSelect", \
 \subsection{Explanation}
 
 
+\subsubsection{Performance Analysis}
+
+Quickselect uses a partition-based approach , while Median of Medians ensures a balanced partition by selecting a pivot near the true median.
+
+\paragraph{i) Time Complexity Analysis}\mbox{}\\
+
+\textbf{1. Quickselect Algorithm}
+\begin{itemize}
+    \item \textbf{Best \& Average Case:} The pivot partitions the array roughly in half.
+    \[ T(n) = T(n/2) + O(n) \implies O(n) \]
+    \item \textbf{Worst Case:} Occurs when the array is already sorted, and the pivot (last element) creates a highly unbalanced partition ($n-1$ vs $0$).
+    \[ T(n) = T(n-1) + O(n) \implies O(n^2) \]
+\end{itemize}
+
+\textbf{2. Median of Medians Algorithm}
+Median of Medians divides the array into groups of 5 and finds the median of each to select a pivot. This guarantees the pivot is within the $30^{th}$ to $70^{th}$ percentile.
+\begin{itemize}
+    \item \textbf{Recurrence Relation (All Cases):}
+    \[ T(n) \le T\left(\lceil \frac{n}{5} \rceil\right) + T\left(\frac{7n}{10}\right) + O(n) \]
+    Here, $T(n/5)$ is the cost to find the median of medians, and $T(7n/10)$ represents the worst-case recursive step on the remaining elements.
+    \item \textbf{Complexity:} Since the sum of fractions $\frac{1}{5} + \frac{7}{10} = 0.9 < 1$, the work decreases geometrically.
+    \[ \text{Best, Average, and Worst Case: } O(n) \]
+\end{itemize}
+
+\paragraph{ii) Space Complexity Analysis}
+
+\begin{itemize}
+    \item \textbf{Quickselect:} In the worst case (sorted input), the recursion stack depth reaches $O(n)$. In the average case, it is $O(\log n)$.
+    \item \textbf{Median of Medians:} Due to guaranteed balanced partitioning, the recursion depth is bounded logarithmically in all cases.
+    \[ \text{Space Complexity: } O(\log n) \]
+\end{itemize}
+
+\subsubsection{Suitability for Large-Scale Census Data}
+
+Large-scale census datasets always halves massive volume ($N > 10^6$) and may be partially sorted (e.g. sorted by region ID or timestamps).
+
+\begin{enumerate}
+    \item \textbf{Quickselect:} Althpugh Quickselect has smaller constant factors and is faster on random data, it is highly unsuitable for census data if implemented with a simple deterministic pivot (e.g., `arr[high]`). Pre-sorted census data causes the $O(n^2)$ worst-case behavior, potentially causing stack overflow due to long recursion tree.
+    \item \textbf{Stability of Median of Medians:} The Median of Medians method provides a strict $O(n)$ upper bound regardless of input structure. Although it has higher constant factors per iteration, it is the best choice to ensure predictable performance on large, potentially sorted datasets where worst-case reliability is critical.
+\end{enumerate}
+
+\clearpage
+\section{Question 3}
+\subsection{Problem Statement}
+A financial technology analytics firm processes transaction data from two
+independent banking systems. Each bank stores the daily transaction amounts of its
+customers in a sorted array (sorted in non-decreasing order). At the end of each day,
+the firm must compute the median transaction value across both banks to generate
+risk and liquidity assessment reports. Due to strict performance requirements and
+memory constraints, the firm cannot afford to merge the two arrays into a single array.
+Instead, the median must be computed directly from the two sorted datasets using an
+efficient algorithm.
+
+Write a C program to compute the \textbf{median of the combined dataset} formed by \textbf{two given
+sorted arrays, without merging the arrays into a single structure}. Further, examine
+whether it is possible to design an algorithm that solves this problem with \textbf{logarithmic
+time complexity}. If such an algorithm exists, implement your solution strictly
+following that approach and justify its efficiency through appropriate time complexity
+analysis.
+
+\subsection{Code}
+\begin{lstlisting}
+#include <stdio.h>
+#include <stdlib.h>
+#include <limits.h>
+
+int* init(int size) {
+    int* arr = (int*)malloc(size * sizeof(int));
+    if (arr == NULL) {
+        printf("Memory allocation failed!\n");
+        exit(1);
+    }
+    return arr;
+}
+
+int* freeArr(int* arr) {
+    if (arr != NULL) {
+        free(arr);
+        arr = NULL;
+    }
+    return arr;
+}
+
+
+void swap(int* a, int* b) {
+    int temp = *a;
+    *a = *b;
+    *b = temp;
+}
+
+
+void insertionSort(int* arr, int n) {
+    for (int i = 1; i < n; i++) {
+        int key = arr[i];
+        int j = i - 1;
+
+        while (j >= 0 && arr[j] > key) {
+            arr[j + 1] = arr[j];
+            j--;
+        }
+        arr[j + 1] = key;
+    }
+}
+
+
+double findMed(int *A, int n, int *B, int m) {
+
+    if (n > m)
+        return findMed(B, m, A, n);
+
+    int low = 0, high = n;
+    int total = n + m;
+    int half = (total + 1) / 2;
+
+    while (low <= high) {
+
+        int i = (low + high) / 2;
+        int j = half - i;
+
+        int Aleft  = (i == 0) ? INT_MIN : A[i - 1];
+        int Aright = (i == n) ? INT_MAX : A[i];
+
+        int Bleft  = (j == 0) ? INT_MIN : B[j - 1];
+        int Bright = (j == m) ? INT_MAX : B[j];
+
+        if (Aleft <= Bright && Bleft <= Aright) {
+
+            if (total % 2 == 0) {
+                int leftMax  = (Aleft > Bleft) ? Aleft : Bleft;
+                int rightMin = (Aright < Bright) ? Aright : Bright;
+                return (leftMax + rightMin) / 2.0;
+            } else {
+                return (Aleft > Bleft) ? Aleft : Bleft;
+            }
+        }
+        else if (Aleft > Bright)
+            high = i - 1;
+        else
+            low = i + 1;
+    }
+
+    return -1;
+}
+
+int main() {
+
+    int n, m;
+
+    printf("Enter size of first array: ");
+    scanf("%d", &n);
+
+    printf("Enter size of second array: ");
+    scanf("%d", &m);
+
+    int* A = init(n);
+    int* B = init(m);
+
+    printf("Enter elements of first array:\n");
+    for (int i = 0; i < n; i++)
+        scanf("%d", &A[i]);
+
+    printf("Enter elements of second array:\n");
+    for (int i = 0; i < m; i++)
+        scanf("%d", &B[i]);
+
+    insertionSort(A, n);
+    insertionSort(B, m);
+
+    double median = findMed(A, n, B, m);
+
+    printf("Median of combined arrays = %.2f\n", median);
+
+    A = freeArr(A);
+    B = freeArr(B);
+
+    return 0;
+}
+
+\end{lstlisting}
+
+\subsection{Output}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\textwidth]{Pasted image (3).png}
+    \caption{Question 3- Output}
+\end{figure}
+
+\subsection{Explanation}
+
+Instead of merging the both array and sorting (which requires 
+$O(n+m)$ time and space), here we are applying binary search
+on the smaller array. We have to determine a partition such that:
+
+\begin{itemize}
+    \item The left partition contains exactly half of the total elements.
+    \item Every element in the left partition is less than or equal to every element in the right partition.
+\end{itemize}
+
+Once this condition is satisfied, the median is obtained directly from the 
+boundary elements of the partitions.
+
+\subsubsection*{Time Complexity}
+
+Let $n$ and $m$ be the sizes of the two arrays, with $n \le m$. 
+Binary search is performed on the smaller array.
+
+\textbf{Best Case:}
+\[
+T(n) = O(1)
+\]
+
+\textbf{Average Case:}
+\[
+T(n) = T(n/2) + O(1)
+\]
+\[
+\Rightarrow T(n) = O(\log n)
+\]
+
+\textbf{Worst Case:}
+\[
+T(n) = O(\log n)
+\]
+
+Thus, the overall time complexity is:
+\[
+O(\log(\min(n,m)))
+\]
+
+\subsubsection*{Space Complexity}
+
+The algorithm uses only constant auxiliary variables and does not allocate 
+additional data structures.
+
+\[
+\text{Best Case} = O(1)
+\]
+\[
+\text{Average Case} = O(1)
+\]
+\[
+\text{Worst Case} = O(1)
+\]
+
+\subsubsection*{Conclusion}
+
+Compared to the merging approach that will require $O(n+m)$ time and space, 
+the binary-search based method achieves logarithmic time and constant 
+space complexity. Therefore, it is suitable for 
+large-scale financial data processing systems where memory and 
+performance constraints important.
+
+
 \end{document}

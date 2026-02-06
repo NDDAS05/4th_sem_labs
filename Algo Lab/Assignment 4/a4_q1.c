@@ -152,12 +152,12 @@ int main() {
   int *arr = init(true);
 
   printf("Finding median using Random Pivot Quick Select:\n");
-  printf("===============================================\n");
+  printf("-----------------------------------------------\n");
   test(&m, arr, "Random Quick Select");
   printf("\tMedian: %f\n\tRequired Time: %f\n\n", m.median, m.clk);
 
   printf("Finding median using Median-of-3 Quick Select:\n");
-  printf("==============================================\n");
+  printf("----------------------------------------------\n");
   test(&m, arr, "Median3 Quick Select");
   printf("\tMedian: %f\n\tRequired Time: %f\n", m.median, m.clk);
 

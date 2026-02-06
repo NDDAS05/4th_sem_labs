@@ -16,3 +16,12 @@
 \contentsline {subsection}{\numberline {2.4}GNU-PLOT Script}{15}{}%
 \contentsline {subsection}{\numberline {2.5}Time complexity plot}{16}{}%
 \contentsline {subsection}{\numberline {2.6}Explanation}{16}{}%
+\contentsline {subsubsection}{\numberline {2.6.1}Performance Analysis}{16}{}%
+\contentsline {paragraph}{i) Time Complexity Analysis}{16}{}%
+\contentsline {paragraph}{ii) Space Complexity Analysis}{17}{}%
+\contentsline {subsubsection}{\numberline {2.6.2}Suitability for Large-Scale Census Data}{17}{}%
+\contentsline {section}{\numberline {3}Question 3}{18}{}%
+\contentsline {subsection}{\numberline {3.1}Problem Statement}{18}{}%
+\contentsline {subsection}{\numberline {3.2}Code}{18}{}%
+\contentsline {subsection}{\numberline {3.3}Output}{21}{}%
+\contentsline {subsection}{\numberline {3.4}Explanation}{21}{}%

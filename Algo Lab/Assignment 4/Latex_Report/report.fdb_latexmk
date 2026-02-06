@@ -1,7 +1,7 @@
 # Fdb version 4
-["pdflatex"] 1770364760.05504 "/home/nirupam-das/Documents/4-th sem labs/Algo Lab/Assignment 4/Latex_Report/report.tex" "report.pdf" "report" 1770364761.06503 0
+["pdflatex"] 1770379851.63425 "/home/nirupam-das/Documents/4-th sem labs/Algo Lab/Assignment 4/Latex_Report/report.tex" "report.pdf" "report" 1770379852.95116 0
   "/etc/texmf/web2c/texmf.cnf" 1768639346.1158 475 c0e671620eb5563b2130f56340a5fde8 ""
-  "/home/nirupam-das/Documents/4-th sem labs/Algo Lab/Assignment 4/Latex_Report/report.tex" 1770364758.44421 16468 df14dc83d3456063f6d8a728868bc39d ""
+  "/home/nirupam-das/Documents/4-th sem labs/Algo Lab/Assignment 4/Latex_Report/report.tex" 1770379851.26015 24280 4de43d503a01102c69210a7c33b2f74d ""
   "/usr/share/texlive/texmf-dist/fonts/map/fontname/texfonts.map" 1577235249 3524 cb3e574dea2d1052e39280babc910dc8 ""
   "/usr/share/texlive/texmf-dist/fonts/tfm/jknappen/ec/tcrm1200.tfm" 1136768653 1536 74b7293ec3713bb7fdca8dd1bd1f469c ""
   "/usr/share/texlive/texmf-dist/fonts/tfm/public/amsfonts/cmextra/cmex7.tfm" 1246382020 1004 54797486969f23fa377b128694d548df ""
@@ -68,11 +68,12 @@
   "/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map" 1770355302.7456 5472669 54eaf61a88b6b7896ebd0dac973cb29c ""
   "/var/lib/texmf/web2c/pdftex/pdflatex.fmt" 1770355366 8212787 a8c3b3516d13ecd40a683566cc9b68f8 ""
   "Pasted image (2).png" 1770364466.13995 102123 f0407f5ac3e176d79a442cf1dbf0eb5b ""
+  "Pasted image (3).png" 1770378997.85547 30666 4c3aeed06e315d15ecaee6a8a0757677 ""
   "Pasted image.png" 1770361692.52343 19692 a6e44496f991b9bf95dfdf2a09250dfd ""
   "comparison.png" 1770364430.39567 41354 4f3baf5a74869b6bf3e3c053b9ea8beb ""
-  "report.aux" 1770364760.96257 2207 b18b88540a63c619028dd7b59756b37a "pdflatex"
-  "report.tex" 1770364758.44421 16468 df14dc83d3456063f6d8a728868bc39d ""
-  "report.toc" 1770364760.96357 1059 27c5e58ad6b51f9ef9809c91f4c0463c "pdflatex"
+  "report.aux" 1770379852.8533 3307 f7d6e6a96530dcde3aa024c7a8b83f62 "pdflatex"
+  "report.tex" 1770379851.26015 24280 4de43d503a01102c69210a7c33b2f74d ""
+  "report.toc" 1770379852.8543 1668 f7bed0ada6c41c03cba602f65db570cd "pdflatex"
   (generated)
   "report.aux"
   "report.log"
