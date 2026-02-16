@@ -1,21 +1,10 @@
 # Booths Algorithm
 
-Here is a complete, exam-style breakdown of Booth's Multiplication Algorithm, covering every concept, formula, diagram, and trace step provided in the slide.
-
----
-
-### **Topic: Booth's Multiplication Algorithm**
-
 **1. Core Concept and Mathematical Basis**
 Booth's algorithm is designed to **speed up the multiplication process** and directly handle binary integers in **signed 2's complement representation** without needing to check signs or convert numbers beforehand.
 
 * **The Principle of Strings:** The algorithm takes advantage of the fact that a string of 0's in the multiplier requires no addition, just shifting. More importantly, a continuous string of 1's can be optimized.
-* **The Mathematical Rule:** A string of 1's in the multiplier extending from bit weight  down to weight  can be treated as a single subtraction and a single addition using the formula: ****.
-* **Example from the slide:** Take the number , which is `001110` in binary.
-* It has a string of 1's from position  down to  (so  and ).
-* Using the formula: .
-* In decimal: .
-
+* **The Mathematical Rule:** A string of 1's in the multiplier extending from bit weight `2^k` down to weight `2^m` can be treated as a single subtraction and a single addition using the formula: `2^k+1 - 2^m`.
 
 * **Application to Multiplication:** If  is the multiplicand and  is the multiplier, the operation  can be executed as . Instead of performing three separate additions for the three '1's in `001110`, the hardware can obtain the product by shifting  left four times, and subtracting  shifted left by 1 bit. *(Note: The hardware achieves this relative shifting by shifting the partial product to the right instead).*
 
@@ -26,15 +15,15 @@ The hardware block diagram utilizes the following components:
 * **QR Register:** Holds the Multiplier. The Least Significant Bit (LSB) of the multiplier in this register is denoted as ****.
 * **AC Register:** The accumulator, initialized to 0, which holds the upper half of the partial product.
 * ** (Extra Flip-Flop):** A single extra bit appended to the right of the QR register. It helps the hardware "look back" at the previous bit to detect the beginning and end of a string of 1's.
-* **Sequence Counter (SC):** Initialized to the number of bits in the multiplier () and decrements down to 0 to control the loop.
+* **Sequence Counter (SC):** Initialized to the number of bits in the multiplier (n) and decrements down to 0 to control the loop.
 * **Complementer and Parallel Adder:** Used to add or subtract BR from AC.
 
 **3. The Operational Algorithm (Flowchart)**
 
-* **Initialization:** Multiplicand is loaded into BR. Multiplier is loaded into QR. Accumulator . Extra bit . Sequence counter .
-* **The Decision Loop:** The hardware looks at the 2-bit pair formed by **** to decide what to do.
-* **Case `10` (Start of a string of 1's):** Subtract the multiplicand. The operation is  (which adds the 2's complement of BR).
-* **Case `01` (End of a string of 1's):** Add the multiplicand. The operation is .
+* **Initialization:** Multiplicand is loaded into BR. Multiplier is loaded into QR. Accumulator AC<-0. Extra bit Qn+1 <-0. Sequence counter SC<-n.
+* **The Decision Loop:** The hardware looks at the 2-bit pair formed by `Qn Qn+1` to decide what to do.
+* **Case `10` (Start of a string of 1's):** Subtract the multiplicand. The operation is AC<-AC+BR'+1(which adds the 2's complement of BR).
+* **Case `01` (End of a string of 1's):** Add the multiplicand. The operation is AC<-AC+BR.
 * **Case `11` (Middle of a string of 1's):** Do nothing mathematically.
 * **Case `00` (Middle of a string of 0's):** Do nothing mathematically.
 
