@@ -6,91 +6,91 @@ namespace stackLib {
 
 
 
-template <typename T>
-struct stk {
-    T* stack_arr;
-    int capacity;
-    int MaxLimit;
-    int top;
-};
+    template <typename T>
+    struct stk {
+        T* stack_arr;
+        int capacity;
+        int MaxLimit;
+        int top;
+    };
 
 
-template <typename T>
-void initialize(stk<T>& s, int size = 2, int limit = 10) {
-    s.capacity = size;
-    s.MaxLimit = limit;
-    s.top = -1;
-    s.stack_arr = new T[s.capacity];
-}
+    template <typename T>
+    void initialize(stk<T>& s, int size = 2, int limit = 10) {
+        s.capacity = size;
+        s.MaxLimit = limit;
+        s.top = -1;
+        s.stack_arr = new T[s.capacity];
+    }
 
-template <typename T>
-void release(stk<T>& s) {
-    delete[] s.stack_arr;
-    s.stack_arr = nullptr;
-    s.top = -1;
-}
+    template <typename T>
+    void release(stk<T>& s) {
+        delete[] s.stack_arr;
+        s.stack_arr = nullptr;
+        s.top = -1;
+    }
 
-template <typename T>
-int inflate(stk<T>& s) {
-    if (s.capacity >= s.MaxLimit)
-        return 0;
-
-    int newCap = s.capacity * 2;
-    if (newCap > s.MaxLimit)
-        newCap = s.MaxLimit;
-
-    std::cout << "[Inflating stack]\n";
-
-    T* newArr = new T[newCap];
-
-    for (int i = 0; i <= s.top; i++)
-        newArr[i] = s.stack_arr[i];
-
-    delete[] s.stack_arr;
-    s.stack_arr = newArr;
-    s.capacity = newCap;
-
-    return 1;
-}
-
-template <typename T>
-int push(stk<T>& s, const T& value) {
-    if (s.top == s.capacity - 1)
-        if (!inflate(s)) {
-            std::cout << "Stack Overflow.\n";
+    template <typename T>
+    int inflate(stk<T>& s) {
+        if (s.capacity >= s.MaxLimit)
             return 0;
+
+        int newCap = s.capacity * 2;
+        if (newCap > s.MaxLimit)
+            newCap = s.MaxLimit;
+
+        std::cout << "[Inflating stack]\n";
+
+        T* newArr = new T[newCap];
+
+        for (int i = 0; i <= s.top; i++)
+            newArr[i] = s.stack_arr[i];
+
+        delete[] s.stack_arr;
+        s.stack_arr = newArr;
+        s.capacity = newCap;
+
+        return 1;
+}
+
+    template <typename T>
+    int push(stk<T>& s, const T& value) {
+        if (s.top == s.capacity - 1)
+            if (!inflate(s)) {
+                std::cout << "Stack Overflow.\n";
+                return 0;
         }
 
-    s.stack_arr[++s.top] = value;
-    return 1;
-}
-
-template <typename T>
-int push(stk<T>& s, T* arr, int count) {
-    for (int i = 0; i < count; i++)
-        if (!push(s, arr[i]))
-            return 0;
-    return 1;
-}
-
-template <typename T>
-T pop(stk<T>& s) {
-    if (s.top == -1) {
-        std::cout << "Stack Underflow.\n";
-        return T();
+        s.stack_arr[++s.top] = value;
+        return 1;
     }
-    return s.stack_arr[s.top--];
-}
 
-template <typename T>
-void display(const stk<T>& s) {
-    std::cout << "[ ";
-    for (int i = 0; i <= s.top; i++)
-        std::cout << s.stack_arr[i] << " ";
-    std::cout << "]\n";
-}
+    template <typename T>
+    int push(stk<T>& s, T* arr, int count) {
+        for (int i = 0; i < count; i++)
+            if (!push(s, arr[i]))
+                return 0;
+        return 1;
+    }
 
-} // namespace stackLib
+    template <typename T>
+    T pop(stk<T>& s) {
+        if (s.top == -1) {
+            std::cout << "Stack Underflow.\n";
+            return T();
+        }
+        return s.stack_arr[s.top--];
+    }
+
+    template <typename T>
+    void display(const stk<T>& s) {
+        std::cout << "[ ";
+        for (int i = 0; i <= s.top; i++)
+            std::cout << s.stack_arr[i] << " ";
+        std::cout << "]\n";
+    }
+
+}
 
 struct Student {
     int roll;
