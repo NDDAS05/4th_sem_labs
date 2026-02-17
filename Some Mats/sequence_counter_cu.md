@@ -59,37 +59,37 @@ Combines timing signals and control inputs to generate required control signals.
 
 **Step-by-Step Operation**
 
-1. When `Begin = 1` and `End = 0`
+1. **When `Begin = 1` and `End = 0`**
 
-Flip-flop output becomes `1` .
+* Flip-flop output becomes `1` .
 
-Clock is enabled to the sequence counter.
+* Clock is enabled to the sequence counter.
 
-Counter starts **counting clock pulses.**
+* Counter starts **counting clock pulses.**
 
 
 
-2. At each clock pulse:
+2. **At each clock pulse:**
 
-Counter advances by 1.
+* Counter advances by 1.
 
-Decoder activates corresponding timing signal:
+* Decoder activates corresponding timing signal:
 
 
 
 
 `phi_i`  becomes active at count `i`
 
-3. Each timing signal activates control signals required for that step.
+3. **Each timing signal activates control signals required for that step.**
 
 
-4. When instruction completes:
+4. **When instruction completes:**
 
-End signal becomes 1.
+* End signal becomes 1.
 
-Counter is reset.
+* Counter is reset.
 
-Next instruction cycle begins.
+* Next instruction cycle begins.
 
 ---
 
@@ -110,8 +110,8 @@ Thus, sequence counter generates ordered timing signals.
 
 ## Example: Mod-16 Sequence Counter
 
-Counter counts from:
 
+Counter counts from:
 
 0 to 15
 
