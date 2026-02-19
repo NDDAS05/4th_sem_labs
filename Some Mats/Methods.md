@@ -1,4 +1,6 @@
-# [title:Methods]Based on the sources provided, here is the breakdown of the methods, strategies, and processes mentioned in each document.
+# Methods
+
+Based on the sources provided, here is the breakdown of the methods, strategies, and processes mentioned in each document.
 
 ### **Source 1: DS1.pdf**
 *   **Data Collection Methods:** Web scraping, accessing APIs, querying databases/spreadsheets.
