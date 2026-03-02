@@ -2,8 +2,8 @@
 #include <stdlib.h>
 
 typedef struct DSU {
-  int *parent;
-  int *rank;
+  int *parent; // parent[i]=i;
+  int *rank;   // Only parent index holds valid rank.
 } DSU;
 
 void fillZero(DSU *d, int size) {
@@ -33,33 +33,66 @@ void freeDSU(DSU *d) {
   }
 }
 
-int find(DSU *d, int x)
+int find(DSU *d, int x) // Returns root of the tree where the element is.
 {
   if (d->parent[x] == x)
-    return x;
+    return x; // Base Case: Parent's Parent is Parent itself.
+  // It returns root of the tree
+
+  // Path Compression : Every time we visit a node, we update its parent to the
+  // parent of the tree itself.
+  // In recursion, instead of calling return
+  // find(parent[x]); we do parent[x] = find(parent[x]); return parent[x];
+
+  // Since base case returns the "root of the tree",
+  // every other node accessed due to recursive call find(parent[x]) will have
+  // their parent updated to "root of the tree" while returning.
+
   return d->parent[x] = find(d, d->parent[x]);
 }
 
-int Union(DSU *d, int x, int y)
+int Union(DSU *d, int x, int y) // Returns root of the Union-ed tree.
 {
   int root1 = find(d, x);
   int root2 = find(d, y);
+  // We find the tree roots first. Further operation will be on tree root, not
+  // element specific.
+  // [ Since union "combines" two SETs, does NOTHING ELEMENT SPECIFIC. ]
+  // We need to know the set/tree the element belongs, not the
+  // element itself.
 
+  // If both belong to the same set
   if (root1 == root2)
-    return root1;
+    return root1; // Or root2.
 
+  // If rank[root1] == rank[root2],
+  // Then: Assign any one to other. Say we make "root2" to point "root1".
+  // In that case,   RANK OF root1     will be      +1.
   else if (d->rank[root1] == d->rank[root2]) {
+    // We make root2 point to root1.
+    // Thus, parent of root2 will be root1
+    // AND, height of root1 tree will become +1
+
     d->parent[root2] = root1;
     (d->rank[root1])++;
     return root1;
   }
 
+  // Ranks of root1 and root2 are un-equal.
   else {
+    // Since this is "UNION BY RANK",
+    // if rank[root1] > rank[root2],
+    // root2 will point to root1.
+    // AND, height will be that of max(rootoot1, root2)
+    // In this case height/rank = root1.
+
     if (d->rank[root1] > d->rank[root2]) {
       d->parent[root2] = root1;
+      // d->rank[root2] = d->rank[root1] NOT NEEDED,
+      // as we do operations on root, which, for root2 tree, is already changed.
 
       return root1;
-    } else {
+    } else { // rank[root2] > rank[root1]
       d->parent[root1] = root2;
       return root2;
     }
