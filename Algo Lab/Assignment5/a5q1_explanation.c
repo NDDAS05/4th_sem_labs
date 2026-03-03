@@ -58,7 +58,7 @@ int Union(DSU *d, int x, int y) // Returns root of the Union-ed tree.
   // We find the tree roots first. Further operation will be on tree root, not
   // element specific.
   // [ Since union "combines" two SETs, does NOTHING ELEMENT SPECIFIC. ]
-  // We need to know the set/tree the element belongs, not the
+  // We need to know the set/tree the element belongs to, not the
   // element itself.
 
   // If both belong to the same set
