@@ -28,9 +28,25 @@ public:
   void display(const BankAccount &obj) {
     cout << "Details for A/C No: " << obj.account_no << endl
          << "------------------------------------" << endl;
-    cout << "Holder Name: " << obj.holder_name << endl;
-    cout << "Available Balance: " << obj.balance << endl;
+    cout << "\tHolder Name: " << obj.holder_name << endl;
+    cout << "\tAvailable Balance: " << obj.balance << endl;
   }
 
-  bool hasSufficientBalance(const BankAccount &obj, int debit_amt) {}
+  bool hasSufficientBalance(const BankAccount &obj, double debit_amt) {
+    if ((obj.balance) - debit_amt > 0 && obj.balance != 0)
+      return true;
+    return false;
+  }
+
+  bool transferBalance(BankAccount &source, BankAccount &destination,
+                       double debit_ammount) {
+    if (hasSufficientBalance(source, debit_ammount) &&
+        (&source != &destination)) {
+      source.balance = source.balance - debit_ammount;
+      destination.balance = destination.balance + debit_ammount;
+
+      return true;
+    }
+    return false;
+  }
 };
