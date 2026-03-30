@@ -20,7 +20,7 @@ typedef struct {
 
 int compare1D(const void *a, const void *b) {
     double diff = (*(double*)a - *(double*)b);
-    if (fabs(diff) < EPSILON) return 0; 
+    if (fabs(diff) < EPSILON) return 0;
     if (diff < 0) return -1;
     return 1;
 }
@@ -56,7 +56,6 @@ void findClosest1D(const double *pts, int n) {
     
     free(pts_copy);
 }
-
 
 double distSq2D(Point2D p1, Point2D p2) {
     return (p1.x - p2.x)*(p1.x - p2.x) + (p1.y - p2.y)*(p1.y - p2.y);
@@ -102,7 +101,8 @@ ClosestPair closestUtil(Point2D Px[], Point2D Py[], int n, Point2D *strip) {
     if (n <= 3) return bruteForce(Px, n);
 
     int mid = n / 2;
-    Point2D midPoint = Px[mid]; 
+    Point2D midPoint = Px[mid];
+
     Point2D *Pyl = (Point2D *)malloc(mid * sizeof(Point2D));
     Point2D *Pyr = (Point2D *)malloc((n - mid) * sizeof(Point2D));
     
@@ -173,7 +173,7 @@ ClosestPair closestUtil(Point2D Px[], Point2D Py[], int n, Point2D *strip) {
 void findClosest2D(Point2D *pts, int n) {
     Point2D *Px = (Point2D *)malloc(n * sizeof(Point2D));
     Point2D *Py = (Point2D *)malloc(n * sizeof(Point2D));
-    Point2D *strip = (Point2D *)malloc(n * sizeof(Point2D)); 
+    Point2D *strip = (Point2D *)malloc(n * sizeof(Point2D));
     
     if (!Px || !Py || !strip) {
         fprintf(stderr, "Memory allocation failed in findClosest2D\n");
@@ -195,7 +195,7 @@ void findClosest2D(Point2D *pts, int n) {
     
     result.dist = sqrt(result.dist); 
     
-    printf("2D Closest Pair Results (Divide & Conquer)n");
+    printf("2D Closest Pair Results (Divide & Conquer)\n");
     printf("Point 1: (%.4f, %.4f)\n", result.p1.x, result.p1.y);
     printf("Point 2: (%.4f, %.4f)\n", result.p2.x, result.p2.y);
     printf("Minimum Distance: %.4f\n\n", result.dist);
@@ -208,9 +208,9 @@ void findClosest2D(Point2D *pts, int n) {
 int main() {
     int n;
     
-    printf("Enter the number of points (2 <= n <= 10000000): ");
-    if (scanf("%d", &n) != 1 || n < 2 || n > 10000000) {
-        printf("Error: Please enter a valid integer between 2 and 10,000,000.\n");
+    printf("Enter the number of points (2 <= n <= 30): ");
+    if (scanf("%d", &n) != 1 || n < 2 || n > 30) {
+        printf("Error: Please enter a valid integer between 2 and 30.\n");
         return 1;
     }
 
@@ -218,7 +218,7 @@ int main() {
     Point2D *points2D = (Point2D *)malloc(n * sizeof(Point2D));
 
     if (points1D == NULL || points2D == NULL) {
-        printf("Memory allocation failed in main.\n");
+        printf("Memory allocation failed in main!\n");
         if (points1D) free(points1D);
         if (points2D) free(points2D);
         return 1;
@@ -232,17 +232,15 @@ int main() {
         points2D[i].y = ((double)rand() / RAND_MAX) * 100.0;
     }
 
-    if (n <= 10) {
-        printf("\n[Generated 1D Points]:\n");
-        for (int i = 0; i < n; i++) {
-            printf("%.2f  ", points1D[i]);
-        }
-        printf("\n\n[Generated 2D Points]:\n");
-        for (int i = 0; i < n; i++) {
-            printf("(%.2f, %.2f)  ", points2D[i].x, points2D[i].y);
-        }
-        printf("\n\n");
+    printf("\n[Generated 1D Points]:\n");
+    for (int i = 0; i < n; i++) {
+        printf("%.2f  ", points1D[i]);
     }
+    printf("\n\n[Generated 2D Points]:\n");
+    for (int i = 0; i < n; i++) {
+        printf("(%.2f, %.2f)  ", points2D[i].x, points2D[i].y);
+    }
+    printf("\n\n");
 
     findClosest1D(points1D, n);
     findClosest2D(points2D, n);
