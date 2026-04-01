@@ -5,7 +5,7 @@ using std::cin, std::cout, std::endl;
 /*
       ----Member----
       |           \
-    Empployee   Trainee
+    Employee   Trainee
     1. Dev
     2. SysAdmin
 */
@@ -85,9 +85,13 @@ public:
       : Member(obj), empID(obj.empID), salary(obj.salary) {}
 
   Employee &operator=(const Employee &obj) {
+    if (this == &obj)
+      return *this;
+
     Member::operator=(obj);
     empID = obj.empID;
     salary = obj.salary;
+    return *this;
   }
 
   void input(char *name, char gender, int age, int empID, double salary) {
@@ -96,5 +100,143 @@ public:
     this->salary = salary;
   }
 
-  void display() const {}
+  void display() const {
+    cout << "Employee ID: " << empID << endl;
+    Member::display();
+    cout << "Salary: Rs." << salary << endl;
+  }
+
+  void update(char *name, char gender, int age, int empID, double salary) {
+    Member::update(name, gender, age);
+    this->empID = empID;
+    this->salary = salary;
+  }
+};
+
+class Trainee : public Member {
+  char *department;
+  char *skillset;
+  int duration;
+  double stipend;
+
+public:
+  Trainee()
+      : Member(), department(nullptr), skillset(nullptr), duration(0),
+        stipend(0) {}
+
+  Trainee(char *name, char gender, int age, char *department, char *skillset,
+          double stipend, double duration)
+      : Member(name, gender, age), stipend(stipend), duration(duration) {
+
+    if (department) {
+      this->department = new char[strlen(department) + 1];
+      strcpy(this->department, department);
+    } else
+      this->department = nullptr;
+
+    if (skillset) {
+      this->skillset = new char[strlen(skillset) + 1];
+      strcpy(this->skillset, skillset);
+    } else
+      this->skillset = nullptr;
+  }
+
+  Trainee(const Trainee &obj)
+      : Member(obj), stipend(obj.stipend), duration(obj.duration) {
+
+    delete[] department;
+    delete[] skillset;
+
+    if (obj.department) {
+      this->department = new char[strlen(obj.department) + 1];
+      strcpy(this->department, obj.department);
+    } else
+      this->department = nullptr;
+
+    if (obj.skillset) {
+      this->skillset = new char[strlen(obj.skillset) + 1];
+      strcpy(this->skillset, obj.skillset);
+    } else
+      this->skillset = nullptr;
+  }
+
+  Trainee &operator=(const Trainee &obj) {
+    if (this == &obj)
+      return *this;
+
+    Member::operator=(obj);
+
+    stipend = obj.stipend;
+    duration = obj.duration;
+
+    delete[] department;
+    delete[] skillset;
+
+    if (obj.department) {
+      this->department = new char[strlen(obj.department) + 1];
+      strcpy(this->department, obj.department);
+    } else
+      this->department = nullptr;
+
+    if (obj.skillset) {
+      this->skillset = new char[strlen(obj.skillset) + 1];
+      strcpy(this->skillset, obj.skillset);
+    } else
+      this->skillset = nullptr;
+
+    return *this;
+  }
+
+  void input(char *name, char gender, int age, char *department, char *skillset,
+             double stipend, double duration) {
+    Member::input(name, gender, age);
+    this->stipend = stipend;
+    this->duration = duration;
+
+    delete[] department;
+    delete[] skillset;
+
+    if (department) {
+      this->department = new char[strlen(department) + 1];
+      strcpy(this->department, department);
+    } else
+      this->department = nullptr;
+
+    if (skillset) {
+      this->skillset = new char[strlen(skillset) + 1];
+      strcpy(this->skillset, skillset);
+    } else
+      this->skillset = nullptr;
+  }
+
+  void display() const {
+    Member::display();
+    cout << "Department: " << department << endl;
+    cout << "Skillset: " << skillset << endl;
+    cout << "Duration: " << duration << endl;
+    cout << "Stipend: Rs. " << stipend << endl;
+  }
+
+  void update(char *name, char gender, int age, char *department,
+              char *skillset, double stipend, double duration) {
+
+    Member::update(name, gender, age);
+    this->stipend = stipend;
+    this->duration = duration;
+
+    delete[] department;
+    delete[] skillset;
+
+    if (department) {
+      this->department = new char[strlen(department) + 1];
+      strcpy(this->department, department);
+    } else
+      this->department = nullptr;
+
+    if (skillset) {
+      this->skillset = new char[strlen(skillset) + 1];
+      strcpy(this->skillset, skillset);
+    } else
+      this->skillset = nullptr;
+  }
 };
