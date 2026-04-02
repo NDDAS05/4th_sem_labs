@@ -331,17 +331,23 @@ public:
     delete[] this->skillset;
     delete[] this->project;
 
-    this->department = department ? new char[strlen(department) + 1] : nullptr;
-    if (department)
+    if (department) {
+      this->department = new char[strlen(department) + 1];
       strcpy(this->department, department);
+    } else
+      this->department = nullptr;
 
-    this->skillset = skillset ? new char[strlen(skillset) + 1] : nullptr;
-    if (skillset)
-      strcpy(this->skillset, skillset);
-
-    this->project = project ? new char[strlen(project) + 1] : nullptr;
-    if (project)
+    if (project) {
+      this->project = new char[strlen(project) + 1];
       strcpy(this->project, project);
+    } else
+      this->project = nullptr;
+
+    if (skillset) {
+      this->skillset = new char[strlen(skillset) + 1];
+      strcpy(this->skillset, skillset);
+    } else
+      this->skillset = nullptr;
   }
 
   void display() const {
