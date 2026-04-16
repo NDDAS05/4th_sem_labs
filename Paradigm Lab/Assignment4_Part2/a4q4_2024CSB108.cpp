@@ -1,10 +1,9 @@
 #include <fstream>
 #include <iostream>
-#include <memory>
+#include <sstream>
 #include <string>
 
 using std::cin, std::cout, std::endl, std::string;
-
 
 class Vehicle {
 protected:
@@ -54,7 +53,8 @@ public:
   string getType() const { return "Car"; }
 
   void displayInfo() const {
-    cout << "  [Car]   ID=" << id << endl
+    cout << "  [Car] " << endl
+         << "ID=" << id << endl
          << "  Brand=" << brand << endl
          << "  Year=" << year << endl
          << "  Doors=" << num_of_doors << endl
@@ -82,7 +82,8 @@ public:
   string getType() const { return "Truck"; }
 
   void displayInfo() const {
-    cout << "  [Truck] ID=" << id << endl
+    cout << "  [Truck]" << endl
+         << "ID=" << id << endl
          << "  Brand=" << brand << endl
          << "  Year=" << year << endl
          << "  Payload=" << payloadTons << "t" << endl
@@ -108,8 +109,12 @@ public:
   string getType() const { return "Bus"; }
 
   void displayInfo() const {
-    cout << "  [Bus]   ID=" << id << "  Brand=" << brand << "  Year=" << year
-         << "  Capacity=" << capacity << "  Route=" << routeNumber
+    cout << "  [Bus]" << endl
+         << "  ID=" << id << endl
+         << "  Brand=" << brand << endl
+         << "  Year=" << year << endl
+         << "  Capacity=" << capacity << endl
+         << "  Route=" << routeNumber << endl
          << "  Status=" << (is_running ? "Running" : "Stopped") << "\n";
   }
 
@@ -191,8 +196,8 @@ public:
   void loadFleet(const string &filename) {
     std::ifstream inFile(filename);
     if (!inFile) {
-        cout << "Error reading from file" << endl;
-        return;
+      cout << "Error reading from file" << endl;
+      return;
     }
 
     clearFleetObj();
@@ -200,58 +205,174 @@ public:
     string line;
 
     while (getline(inFile, line)) {
-        if (line.empty()) continue;
+      if (line.empty())
+        continue;
 
-        std::stringstream ss(line);
-        string type;
+      std::stringstream ss(line);
+      string type;
 
-        getline(ss, type, '|');
+      getline(ss, type, '|');
 
-        if (type == "Car") {
-            string id, brand, yearStr, doorsStr, fuel;
-            getline(ss, id, '|');
-            getline(ss, brand, '|');
-            getline(ss, yearStr, '|');
-            getline(ss, doorsStr, '|');
-            getline(ss, fuel, '|');
+      if (type == "Car") {
+        string id, brand, yearStr, doorsStr, fuel;
+        getline(ss, id, '|');
+        getline(ss, brand, '|');
+        getline(ss, yearStr, '|');
+        getline(ss, doorsStr, '|');
+        getline(ss, fuel, '|');
 
-            int year = stoi(yearStr);
-            int doors = stoi(doorsStr);
+        int year = stoi(yearStr);
+        int doors = stoi(doorsStr);
 
-            addVehicle(new Car(id, brand, year, doors, fuel));
-        }
+        addVehicle(new Car(id, brand, year, doors, fuel));
+      }
 
-        else if (type == "Truck") {
-            string id, brand, yearStr, payloadStr, refrigStr;
-            getline(ss, id, '|');
-            getline(ss, brand, '|');
-            getline(ss, yearStr, '|');
-            getline(ss, payloadStr, '|');
-            getline(ss, refrigStr, '|');
+      else if (type == "Truck") {
+        string id, brand, yearStr, payloadStr, refrigStr;
+        getline(ss, id, '|');
+        getline(ss, brand, '|');
+        getline(ss, yearStr, '|');
+        getline(ss, payloadStr, '|');
+        getline(ss, refrigStr, '|');
 
-            int year = stoi(yearStr);
-            double payload = stod(payloadStr);
-            bool hasRefrigeration = stoi(refrigStr); // 0 or 1
+        int year = stoi(yearStr);
+        double payload = stod(payloadStr);
+        bool hasRefrigeration = stoi(refrigStr); // 0 or 1
 
-            addVehicle(new Truck(id, brand, year, payload, hasRefrigeration));
-        }
+        addVehicle(new Truck(id, brand, year, payload, hasRefrigeration));
+      }
 
-        else if (type == "Bus") {
-            string id, brand, yearStr, capStr, route;
-            getline(ss, id, '|');
-            getline(ss, brand, '|');
-            getline(ss, yearStr, '|');
-            getline(ss, capStr, '|');
-            getline(ss, route, '|');
+      else if (type == "Bus") {
+        string id, brand, yearStr, capStr, route;
+        getline(ss, id, '|');
+        getline(ss, brand, '|');
+        getline(ss, yearStr, '|');
+        getline(ss, capStr, '|');
+        getline(ss, route, '|');
 
-            int year = stoi(yearStr);
-            int capacity = stoi(capStr);
+        int year = stoi(yearStr);
+        int capacity = stoi(capStr);
 
-            addVehicle(new Bus(id, brand, year, capacity, route));
-        }
+        addVehicle(new Bus(id, brand, year, capacity, route));
+      }
     }
 
     inFile.close();
-}
-
+  }
 };
+
+int main() {
+  FleetManager fm;
+  int choice;
+
+  do {
+    cout << "\n\tChoose an option:\n";
+    cout << "1. Add Vehicle\n";
+    cout << "2. Display All Vehicles\n";
+    cout << "3. Start All Vehicles\n";
+    cout << "4. Save Fleet to File\n";
+    cout << "5. Load Fleet from File\n";
+    cout << "0. Exit\n";
+    cout << "Enter choice: ";
+    cin >> choice;
+
+    switch (choice) {
+
+    case 1: {
+      int type;
+      cout << "\nSelect Vehicle Type:\n";
+      cout << "1. Car\n2. Truck\n3. Bus\n";
+      cout << "Enter choice: ";
+      cin >> type;
+
+      string id, brand;
+      int year;
+
+      cout << "Enter ID: ";
+      cin >> id;
+      cout << "Enter Brand: ";
+      cin >> brand;
+      cout << "Enter Year: ";
+      cin >> year;
+
+      if (type == 1) {
+        int doors;
+        string fuel;
+
+        cout << "Enter number of doors: ";
+        cin >> doors;
+        cout << "Enter fuel type: ";
+        cin >> fuel;
+
+        fm.addVehicle(new Car(id, brand, year, doors, fuel));
+      }
+
+      else if (type == 2) {
+        double payload;
+        int refrig;
+
+        cout << "Enter payload (tons): ";
+        cin >> payload;
+        cout << "Refrigeration? (1 = Yes, 0 = No): ";
+        cin >> refrig;
+
+        fm.addVehicle(new Truck(id, brand, year, payload, refrig));
+      }
+
+      else if (type == 3) {
+        int capacity;
+        string route;
+
+        cout << "Enter capacity: ";
+        cin >> capacity;
+        cout << "Enter route number: ";
+        cin >> route;
+
+        fm.addVehicle(new Bus(id, brand, year, capacity, route));
+      }
+
+      else {
+        cout << "Invalid vehicle type.\n";
+      }
+
+      break;
+    }
+
+    case 2:
+      fm.displayAll();
+      break;
+
+    case 3:
+      fm.startAll();
+      break;
+
+    case 4: {
+      string filename;
+      cout << "Enter filename: ";
+      cin >> filename;
+      fm.saveFleet(filename);
+      cout << "Fleet saved.\n";
+      break;
+    }
+
+    case 5: {
+      string filename;
+      cout << "Enter filename: ";
+      cin >> filename;
+      fm.loadFleet(filename);
+      cout << "Fleet loaded.\n";
+      break;
+    }
+
+    case 0:
+      cout << "Exiting...\n";
+      break;
+
+    default:
+      cout << "Invalid choice.\n";
+    }
+
+  } while (choice != 0);
+
+  return 0;
+}
