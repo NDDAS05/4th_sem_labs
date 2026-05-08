@@ -1,5 +1,5 @@
 ### Strengths of K-Means
- * **Highly Efficient:** The time complexity is O(tkn), where n is the number of objects, k is the number of clusters, and t is the number of iterations. Typically, k and t \ll n.
+ * **Highly Efficient:** The time complexity is O(tkn), where n is the number of objects, k is the number of clusters, and t is the number of iterations. Typically, k and t << n.
  * **Scalable Compared to Alternatives:** It performs much faster than PAM, which has a complexity of O(k(n-k)^2), and CLARA, which has a complexity of O(ks^2 + k(n-k)).
 ### Weaknesses & Solutions
 **1. Restricted to Continuous Data**
