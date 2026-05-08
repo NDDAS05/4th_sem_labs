@@ -4,8 +4,14 @@
 ### Weaknesses & Solutions
 **1. Restricted to Continuous Data**
  * **Issue:** Standard K-means is only applicable to objects in a continuous n-dimensional space.
+
+
  * **Solutions:** * **k-modes:** Handles purely categorical data by replacing means with modes, using new dissimilarity measures, and utilizing a frequency-based method to update cluster modes.
+
+
    * **k-prototypes:** Handles a mixture of categorical and numerical data.
+
+
 **2. Sensitive to Initialization**
  * **Issue:** The algorithm randomly initializes cluster centroids. Different initializations can lead to different local optima, meaning the final results can vary wildly. This makes standard K-means less reliable and reproducible.
  * **Solutions:**
