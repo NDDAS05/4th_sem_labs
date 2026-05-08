@@ -1,41 +1,29 @@
-# Checklist: PDF 2
-
-### **1. Instruction Set Fundamentals**
-*   **Basic Components:** Understand the roles of the **Opcode field** (operation specification) and **Operand field** (data or address).
-*   **Instruction Formats:** Study the difference between explicit and implicit operands.
-*   **Machine Classifications:** Differentiate between processor types based on the number of addresses per instruction:
-    *   **Three-address:** (e.g., `ADD Z, X, Y`)
-    *   **Two-address:** (e.g., `ADD X, Y`)
-    *   **One-address:** Uses an Accumulator (e.g., `ADD X`)
-    *   **Zero-address:** Uses a Stack (e.g., `PUSH`, `POP`)
-
-### **2. Addressing Modes**
-*   **Basic Modes:** Be able to explain Immediate, Direct, and Indirect addressing.
-*   **Advanced Modes:**
-    *   **Relative Addressing:** Uses a displacement and PC; allows for code relocation.
-    *   **Indexed Addressing:** Uses an index register for arrays; understand Predecrement and Postincrement (Autoindexing).
-    *   **Stack Addressing:** Understand `PUSH` and `POP` operations and the role of the Stack Pointer (SP).
-
-### **3. Opcode Optimization**
-*   **Encoding Types:** Compare **Fixed-length opcodes** (easier decoding) vs. **Variable-length opcodes** (saves storage).
-*   **Huffman Coding:** Study how to calculate optimal opcode lengths based on instruction probability to minimize average bit usage.
-
-### **4. Processor Architecture**
-*   **RISC vs. CISC:** Compare their characteristics:
-    *   **RISC:** Simple/fixed instructions, single-cycle execution, hardwired control, heavy reliance on compilers.
-    *   **CISC:** Complex/variable instructions, microprogrammed control, specialized tasks handled by hardware.
-*   **Instruction Cycle:** Review the specific steps in the **Fetch** and **Execute** cycles and how control signals are generated.
-
-### **5. Computer Arithmetic & Hardware**
-*   **Addition & Subtraction:**
-    *   Hardware logic for **Signed-Magnitude** vs. **Signed 2's Complement**.
-    *   How **Overflow** is detected (especially using the `V` flag and carry bits).
-*   **Multiplication:**
-    *   Standard hardware implementation (Shift and Add).
-    *   **Booth’s Algorithm:** Learn how it speeds up multiplication by handling strings of 0s and 1s in signed 2's complement numbers.
-*   **Division:**
-    *   Understand the division algorithm for fixed-point binary numbers (comparing partial remainders, shifting, and restoring).
-    *   **Divide Overflow:** Conditions that trigger an overflow error.
-
-### **6. Instruction Categories**
-*   Familiarize yourself with the five major groups: **Arithmetic**, **Logical**, **Data Transfer**, **Program Control**, and **I-O** instructions.
+### Strengths of K-Means
+ * **Highly Efficient:** The time complexity is O(tkn), where n is the number of objects, k is the number of clusters, and t is the number of iterations. Typically, k and t \ll n.
+ * **Scalable Compared to Alternatives:** It performs much faster than PAM, which has a complexity of O(k(n-k)^2), and CLARA, which has a complexity of O(ks^2 + k(n-k)).
+### Weaknesses & Solutions
+**1. Restricted to Continuous Data**
+ * **Issue:** Standard K-means is only applicable to objects in a continuous n-dimensional space.
+ * **Solutions:** * **k-modes:** Handles purely categorical data by replacing means with modes, using new dissimilarity measures, and utilizing a frequency-based method to update cluster modes.
+   * **k-prototypes:** Handles a mixture of categorical and numerical data.
+**2. Sensitive to Initialization**
+ * **Issue:** The algorithm randomly initializes cluster centroids. Different initializations can lead to different local optima, meaning the final results can vary wildly. This makes standard K-means less reliable and reproducible.
+ * **Solutions:**
+   * Run the algorithm multiple times and choose the best outcome.
+   * Select random seeds with a minimum guaranteed distance between them (e.g., at least D_{min}).
+**3. Sensitive to Outliers**
+ * **Issue:** K-means treats all data points equally. Extreme outliers can heavily distort the calculation of the mean, pulling centroids away from the true center and creating unreliable clusters.
+ * **Solution:** Use **K-medoids**. Instead of calculating a mean, K-medoids uses the most centrally located, actual data point in a cluster as the center, which naturally resists outlier interference.
+**4. Struggles with Non-Convex Shapes**
+ * **Issue:** K-means assumes that clusters are round or spherical. It is not suitable for discovering clusters with irregular, complex, or non-convex shapes.
+ * **Solution:** Use density-based or probabilistic algorithms like DBSCAN or Gaussian Mixture Models (GMM), which can adapt to complex shapes.
+### The Challenge of Deciding "K"
+With K-means, you must explicitly tell the algorithm how many clusters (K) to expect. This is tricky without prior knowledge of the data, and choosing the wrong number leads to misleading results.
+**Methods for Estimating K:**
+ * **Silhouette Analysis:** Measures how similar an object is to its own cluster compared to other clusters.
+ * **The "Elbow" or "Knee" Method:** This involves plotting the objective function values across a range of K values (e.g., K=1 through 6). You look for an abrupt change in the slope of the graph.
+   * *Example:* * When K = 1, the objective function is **873.0**
+     * When K = 2, the objective function is **173.1**
+     * When K = 3, the objective function is **133.6**
+   * *Interpretation:* The massive drop between K=1 and K=2, followed by a flattening out at K=3, creates an "elbow" shape on a graph. This is highly suggestive that there are exactly two clusters in the data.
+   * *Note:* In real-world data, the results are rarely as clear-cut as in this toy example.
