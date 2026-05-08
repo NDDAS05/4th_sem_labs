@@ -6,7 +6,8 @@
  * **Issue:** Standard K-means is only applicable to objects in a continuous n-dimensional space.
 
 
- * **Solutions:** * **k-modes:** Handles purely categorical data by replacing means with modes, using new dissimilarity measures, and utilizing a frequency-based method to update cluster modes.
+ * **Solutions:** 
+   * **k-modes:** Handles purely categorical data by replacing means with modes, using new dissimilarity measures, and utilizing a frequency-based method to update cluster modes.
 
 
    * **k-prototypes:** Handles a mixture of categorical and numerical data.
